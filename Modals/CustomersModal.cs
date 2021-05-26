@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.VisualBasic;
 
 public class Customer
 {
+    [Key]
+    public int CustomerId { get; set; }
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
@@ -11,9 +15,4 @@ public class Customer
     public string PhoneNumber { get; set; }
 
     public string Email { get; set; }
-
-
-    public string Profession { get; set; }
-
-    public DateAndTime DateOfBirth { get; set; }
 }

@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MySql.Data.MySqlClient;
 
 namespace aspcoreapiapp
 {
@@ -27,11 +29,15 @@ namespace aspcoreapiapp
         public void ConfigureServices(IServiceCollection services)
         {
 
+           Console.WriteLine(">>>>>>>>>>>>>>"+Configuration["ConnectionStrings:Default"]);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "aspcoreapiapp", Version = "v1" });
             });
+            services.AddTransient<MySqlConnection>(_ => new MySqlConnection(Configuration["ConnectionStrings:Default"]));
+            services.AddDbContext<CustomersContext>(options => 
+            options.UseMySQL(Configuration["ConnectionStrings:Default"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
